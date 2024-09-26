@@ -2,7 +2,7 @@ mode: user.german
 language: de_DE
 -
 settings():
-	user.context_sensitive_dictation_german = 1
+	user.context_sensitive_dictation_german = 0
     speech.timeout = 0.400
 
 # idea: allow to directly chain commands
@@ -31,7 +31,9 @@ settings():
 
 ^german$: skip()
 
-<user.satz>: user.insert(satz)
+sag <user.satz>: user.insert_normal(satz)
+
+satz <user.satz>: user.insert_cap(satz)
 
 ^(abkürzung|abkürzungen) <user.acronym>: "{acronym}"
 

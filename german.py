@@ -15,7 +15,7 @@ mode: user.german
 language: /.*/
 """
 ctx.settings = {
-    'speech.engine': 'vosk',
+    'speech.engine': 'conformer',
     'speech.language': 'de_DE',
     'speech.timeout': 0.3
 }
@@ -348,8 +348,7 @@ class Actions:
             text += " "
         return text
 
-
-    def insert(txt: str):
+    def insert(txt: str, cap: bool):
         """text insertion"""
 
         # delete whatever is currently selected
@@ -361,8 +360,18 @@ class Actions:
         text = txt
         if setting_context_sensitive_dictation_german.get():
             text = actions.user.smart_insertion(text)
+        if cap:
+            text = text[0].upper() + text[1:]
         actions.user.add_phrase_to_history(text)
         actions.insert(text)
+
+    def insert_normal(txt: str):
+        """Normal insert"""
+        actions.user.insert(txt, False)
+
+    def insert_cap(txt: str):
+        """Capitalized insert"""
+        actions.user.insert(txt, True)
 
     def smart_delete(txt: str, count: str):
         """delete word and optionally space"""
